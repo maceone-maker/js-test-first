@@ -1,0 +1,21 @@
+apiVersion: asset.sap/v1
+kind: Asset
+type: mcp-server
+
+metadata:
+  name: sap-s4-ce-costcenter-0001-mcp-server
+  description: Exposes SAP S/4HANA Cost Center read operations as MCP tools for natural language queries on cost center master data and actual costs.
+  version: "1.0.0"
+  translation: mcp-translation/translation.json
+  apiSpec: mcp-translation/api-spec.edmx
+
+requires:
+  - name: CE_COSTCENTER_0001
+    kind: api
+    ordId: sap.s4:apiResource:CE_COSTCENTER_0001:v1
+
+provides:
+  apis:
+    - name: sap-s4-ce-costcenter-0001-mcp-server
+      kind: mcp-server
+      ordId: customer.build:apiResource:cost-center-intelligence-agent-6e2b1.sap-s4-ce-costcenter-0001-mcp-server:v1

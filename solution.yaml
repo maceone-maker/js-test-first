@@ -1,0 +1,12 @@
+apiVersion: solution.sap/v1
+kind: Solution
+
+metadata:
+  name: cost-center-intelligence-agent-6e2b1
+  version: "1.0.0"
+  description: AI agent enabling Finance Controllers to query SAP S/4HANA cost center data using natural language, with IAS principal propagation for per-user identity and authorization enforcement.
+
+assets:
+  - ref: ./assets/cost-center-intelligence-agent/asset.yaml
+  - ref: ./assets/sap-s4-ce-costcenter-0001-mcp-server/asset.yaml
+  - ref: ./assets/sap-s4-ce-costcenterhierarchy-0001-mcp-server/asset.yaml

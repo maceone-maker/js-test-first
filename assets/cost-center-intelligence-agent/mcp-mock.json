@@ -1,0 +1,697 @@
+{
+  "servers": {
+    "sap-s4-ce-costcenter-0001": {
+      "mcp_server_name": "sap.mcp/sap_self",
+      "description": "MCP server exposing SAP S/4HANA Cost Center read operations for natural language queries on cost center master data and actual costs.",
+      "tools": {
+        "get_metadata_sap_self": {
+          "description": "Retrieve OData service metadata (schema discovery) for the Cost Center service.",
+          "input_schema": {
+            "type": "object",
+            "properties": {},
+            "required": []
+          },
+          "mock_response": {
+            "EntityTypes": ["CostCenter", "CostCenterText"],
+            "EntitySets": ["A_CostCenter", "A_CostCenterText"]
+          }
+        },
+        "batch_for_sap_self": {
+          "description": "Execute a batch request against the Cost Center OData service.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "requests": {
+                "type": "array",
+                "description": "Array of individual OData requests to batch"
+              }
+            },
+            "required": ["requests"]
+          },
+          "mock_response": {
+            "responses": []
+          }
+        },
+        "list_a_costcenter_2_for_sap_self": {
+          "description": "Retrieve a list of cost centers from SAP S/4HANA. Supports OData filtering, ordering, and pagination.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "$top": {
+                "type": "string",
+                "description": "Maximum number of records to return (max 100)"
+              },
+              "$skip": {
+                "type": "string",
+                "description": "Number of records to skip for pagination"
+              },
+              "$filter": {
+                "type": "string",
+                "description": "OData filter expression (e.g., ControllingArea eq 'A000')"
+              },
+              "$select": {
+                "type": "string",
+                "description": "Comma-separated list of fields to return"
+              },
+              "$orderby": {
+                "type": "string",
+                "description": "Sort expression (e.g., ActualCosts desc)"
+              },
+              "$count": {
+                "type": "string",
+                "description": "Set to 'true' to include total count in response"
+              },
+              "$inlinecount": {
+                "type": "string",
+                "description": "Set to 'allpages' to include total count"
+              }
+            },
+            "required": []
+          },
+          "mock_response": {
+            "results": [
+              {
+                "CostCenter": "1000",
+                "ControllingArea": "A000",
+                "CostCenterName": "Corporate IT",
+                "CostCenterCategory": "E",
+                "CompanyCode": "1010",
+                "ValidityEndDate": "/Date(9999999999000)/",
+                "ValidityStartDate": "/Date(978307200000)/",
+                "CostCtrResponsiblePersonName": "John Smith",
+                "ActualCosts": "1250000.00",
+                "Currency": "USD",
+                "IsBlocked": false
+              },
+              {
+                "CostCenter": "2000",
+                "ControllingArea": "A000",
+                "CostCenterName": "Finance & Controlling",
+                "CostCenterCategory": "E",
+                "CompanyCode": "1010",
+                "ValidityEndDate": "/Date(9999999999000)/",
+                "ValidityStartDate": "/Date(978307200000)/",
+                "CostCtrResponsiblePersonName": "Maria Garcia",
+                "ActualCosts": "980000.00",
+                "Currency": "USD",
+                "IsBlocked": false
+              },
+              {
+                "CostCenter": "3000",
+                "ControllingArea": "A000",
+                "CostCenterName": "Human Resources",
+                "CostCenterCategory": "E",
+                "CompanyCode": "1010",
+                "ValidityEndDate": "/Date(9999999999000)/",
+                "ValidityStartDate": "/Date(978307200000)/",
+                "CostCtrResponsiblePersonName": "Alice Johnson",
+                "ActualCosts": "750000.00",
+                "Currency": "USD",
+                "IsBlocked": false
+              },
+              {
+                "CostCenter": "4000",
+                "ControllingArea": "A000",
+                "CostCenterName": "Sales & Marketing",
+                "CostCenterCategory": "E",
+                "CompanyCode": "1010",
+                "ValidityEndDate": "/Date(9999999999000)/",
+                "ValidityStartDate": "/Date(978307200000)/",
+                "CostCtrResponsiblePersonName": "Bob Williams",
+                "ActualCosts": "620000.00",
+                "Currency": "USD",
+                "IsBlocked": false
+              },
+              {
+                "CostCenter": "5000",
+                "ControllingArea": "A000",
+                "CostCenterName": "Operations",
+                "CostCenterCategory": "P",
+                "CompanyCode": "1010",
+                "ValidityEndDate": "/Date(9999999999000)/",
+                "ValidityStartDate": "/Date(978307200000)/",
+                "CostCtrResponsiblePersonName": "Carol Davis",
+                "ActualCosts": "540000.00",
+                "Currency": "USD",
+                "IsBlocked": false
+              }
+            ],
+            "__count": "342"
+          }
+        },
+        "get_a_costcenter_2_for_sap_self": {
+          "description": "Retrieve a single cost center by its key (CostCenter ID and ControllingArea).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "CostCenter": {
+                "type": "string",
+                "description": "Cost center identifier"
+              },
+              "ControllingArea": {
+                "type": "string",
+                "description": "Controlling area identifier"
+              },
+              "ValidityEndDate": {
+                "type": "string",
+                "description": "Validity end date for the cost center"
+              }
+            },
+            "required": ["CostCenter", "ControllingArea"]
+          },
+          "mock_response": {
+            "CostCenter": "1000",
+            "ControllingArea": "A000",
+            "CostCenterName": "Corporate IT",
+            "CostCenterCategory": "E",
+            "CompanyCode": "1010",
+            "ValidityEndDate": "/Date(9999999999000)/",
+            "ValidityStartDate": "/Date(978307200000)/",
+            "CostCtrResponsiblePersonName": "John Smith",
+            "ActualCosts": "1250000.00",
+            "Currency": "USD",
+            "IsBlocked": false,
+            "FunctionalArea": "0100",
+            "BusinessArea": "9900",
+            "Plant": "1010"
+          }
+        },
+        "count_a_costcenter_2_for_sap_self": {
+          "description": "Retrieve the total count of cost centers matching the given filter criteria.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "$filter": {
+                "type": "string",
+                "description": "OData filter expression to scope the count"
+              }
+            },
+            "required": []
+          },
+          "mock_response": 342
+        },
+        "list_a_costcentertext_2_for_sap_self": {
+          "description": "Retrieve cost center text descriptions (names in multiple languages).",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "$top": {
+                "type": "string",
+                "description": "Maximum number of records to return"
+              },
+              "$filter": {
+                "type": "string",
+                "description": "OData filter expression"
+              },
+              "$select": {
+                "type": "string",
+                "description": "Fields to return"
+              }
+            },
+            "required": []
+          },
+          "mock_response": {
+            "results": [
+              {
+                "CostCenter": "1000",
+                "ControllingArea": "A000",
+                "Language": "EN",
+                "CostCenterName": "Corporate IT",
+                "CostCenterDescription": "Central IT cost center for corporate technology services"
+              },
+              {
+                "CostCenter": "2000",
+                "ControllingArea": "A000",
+                "Language": "EN",
+                "CostCenterName": "Finance & Controlling",
+                "CostCenterDescription": "Finance and controlling department cost center"
+              }
+            ]
+          }
+        },
+        "get_a_costcentertext_2_for_sap_self": {
+          "description": "Retrieve text description for a single cost center.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "CostCenter": {
+                "type": "string",
+                "description": "Cost center identifier"
+              },
+              "ControllingArea": {
+                "type": "string",
+                "description": "Controlling area identifier"
+              },
+              "Language": {
+                "type": "string",
+                "description": "Language key (e.g., EN)"
+              }
+            },
+            "required": ["CostCenter", "ControllingArea", "Language"]
+          },
+          "mock_response": {
+            "CostCenter": "1000",
+            "ControllingArea": "A000",
+            "Language": "EN",
+            "CostCenterName": "Corporate IT",
+            "CostCenterDescription": "Central IT cost center for corporate technology services"
+          }
+        },
+        "count_a_costcentertext_2_for_sap_self": {
+          "description": "Count cost center text entries.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "$filter": {
+                "type": "string",
+                "description": "OData filter expression"
+              }
+            },
+            "required": []
+          },
+          "mock_response": 342
+        },
+        "list_a_costcenter_2__costcentertext_for_sap_self": {
+          "description": "Retrieve cost center text entries related to a specific cost center.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "CostCenter": {
+                "type": "string",
+                "description": "Cost center identifier"
+              },
+              "ControllingArea": {
+                "type": "string",
+                "description": "Controlling area identifier"
+              },
+              "$select": {
+                "type": "string",
+                "description": "Fields to return"
+              }
+            },
+            "required": ["CostCenter", "ControllingArea"]
+          },
+          "mock_response": {
+            "results": [
+              {
+                "CostCenter": "1000",
+                "ControllingArea": "A000",
+                "Language": "EN",
+                "CostCenterName": "Corporate IT",
+                "CostCenterDescription": "Central IT cost center for corporate technology services"
+              }
+            ]
+          }
+        },
+        "get_a_costcenter_2__costcentertext_for_sap_self": {
+          "description": "Retrieve a specific text entry for a cost center by language.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "CostCenter": {
+                "type": "string",
+                "description": "Cost center identifier"
+              },
+              "ControllingArea": {
+                "type": "string",
+                "description": "Controlling area identifier"
+              },
+              "Language": {
+                "type": "string",
+                "description": "Language key"
+              }
+            },
+            "required": ["CostCenter", "ControllingArea", "Language"]
+          },
+          "mock_response": {
+            "CostCenter": "1000",
+            "ControllingArea": "A000",
+            "Language": "EN",
+            "CostCenterName": "Corporate IT",
+            "CostCenterDescription": "Central IT cost center for corporate technology services"
+          }
+        },
+        "count_a_costcenter_2__costcentertext_for_sap_self": {
+          "description": "Count text entries for a cost center.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "CostCenter": {
+                "type": "string",
+                "description": "Cost center identifier"
+              },
+              "ControllingArea": {
+                "type": "string",
+                "description": "Controlling area identifier"
+              }
+            },
+            "required": ["CostCenter", "ControllingArea"]
+          },
+          "mock_response": 1
+        }
+      }
+    },
+    "sap-s4-ce-costcenterhierarchy-0001": {
+      "mcp_server_name": "sap.mcp/sap_self",
+      "description": "MCP server exposing SAP S/4HANA Cost Center Hierarchy read operations for enriching cost center responses with organizational hierarchy context.",
+      "tools": {
+        "get_metadata_sap_self": {
+          "description": "Retrieve OData service metadata for the Cost Center Hierarchy service.",
+          "input_schema": {
+            "type": "object",
+            "properties": {},
+            "required": []
+          },
+          "mock_response": {
+            "EntityTypes": ["CostCenterHierarchy", "CostCenterHierarchyNode", "CostCenterHierarchyText"],
+            "EntitySets": ["CostCenterHierarchy", "CostCenterHierarchyNode"]
+          }
+        },
+        "batch_for_sap_self": {
+          "description": "Execute a batch request against the Cost Center Hierarchy OData service.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "requests": {
+                "type": "array",
+                "description": "Array of individual OData requests to batch"
+              }
+            },
+            "required": ["requests"]
+          },
+          "mock_response": {
+            "responses": []
+          }
+        },
+        "list_costcenterhierarchy_for_sap_self": {
+          "description": "Retrieve a list of cost center hierarchies.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "$top": {
+                "type": "string",
+                "description": "Maximum number of records to return"
+              },
+              "$filter": {
+                "type": "string",
+                "description": "OData filter expression"
+              },
+              "$select": {
+                "type": "string",
+                "description": "Fields to return"
+              }
+            },
+            "required": []
+          },
+          "mock_response": {
+            "results": [
+              {
+                "ControllingArea": "A000",
+                "CostCenterHierarchy": "H1",
+                "CostCenterHierarchyName": "Standard Hierarchy A000",
+                "ValidityEndDate": "/Date(9999999999000)/",
+                "ValidityStartDate": "/Date(978307200000)/"
+              }
+            ]
+          }
+        },
+        "get_costcenterhierarchy_for_sap_self": {
+          "description": "Retrieve a single cost center hierarchy by key.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ControllingArea": {
+                "type": "string",
+                "description": "Controlling area identifier"
+              },
+              "CostCenterHierarchy": {
+                "type": "string",
+                "description": "Hierarchy identifier"
+              }
+            },
+            "required": ["ControllingArea", "CostCenterHierarchy"]
+          },
+          "mock_response": {
+            "ControllingArea": "A000",
+            "CostCenterHierarchy": "H1",
+            "CostCenterHierarchyName": "Standard Hierarchy A000",
+            "ValidityEndDate": "/Date(9999999999000)/",
+            "ValidityStartDate": "/Date(978307200000)/"
+          }
+        },
+        "count_costcenterhierarchy_for_sap_self": {
+          "description": "Count cost center hierarchies.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "$filter": {
+                "type": "string",
+                "description": "OData filter expression"
+              }
+            },
+            "required": []
+          },
+          "mock_response": 1
+        },
+        "list_costcenterhierarchynode_for_sap_self": {
+          "description": "Retrieve nodes in the cost center hierarchy.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "$top": {
+                "type": "string",
+                "description": "Maximum number of records"
+              },
+              "$filter": {
+                "type": "string",
+                "description": "Filter expression (e.g., CostCenter eq '1000')"
+              },
+              "$select": {
+                "type": "string",
+                "description": "Fields to return"
+              }
+            },
+            "required": []
+          },
+          "mock_response": {
+            "results": [
+              {
+                "ControllingArea": "A000",
+                "CostCenterHierarchy": "H1",
+                "HierarchyNode": "ROOT",
+                "ParentNode": "",
+                "CostCenter": "",
+                "NodeName": "Corporate",
+                "NodeLevel": "1"
+              },
+              {
+                "ControllingArea": "A000",
+                "CostCenterHierarchy": "H1",
+                "HierarchyNode": "FINANCE",
+                "ParentNode": "ROOT",
+                "CostCenter": "",
+                "NodeName": "Finance",
+                "NodeLevel": "2"
+              },
+              {
+                "ControllingArea": "A000",
+                "CostCenterHierarchy": "H1",
+                "HierarchyNode": "CC1000",
+                "ParentNode": "FINANCE",
+                "CostCenter": "1000",
+                "NodeName": "Corporate IT",
+                "NodeLevel": "3"
+              }
+            ]
+          }
+        },
+        "get_costcenterhierarchynode_for_sap_self": {
+          "description": "Retrieve a single hierarchy node by key.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ControllingArea": {
+                "type": "string",
+                "description": "Controlling area identifier"
+              },
+              "CostCenterHierarchy": {
+                "type": "string",
+                "description": "Hierarchy identifier"
+              },
+              "HierarchyNode": {
+                "type": "string",
+                "description": "Node identifier"
+              }
+            },
+            "required": ["ControllingArea", "CostCenterHierarchy", "HierarchyNode"]
+          },
+          "mock_response": {
+            "ControllingArea": "A000",
+            "CostCenterHierarchy": "H1",
+            "HierarchyNode": "CC1000",
+            "ParentNode": "FINANCE",
+            "CostCenter": "1000",
+            "NodeName": "Corporate IT",
+            "NodeLevel": "3"
+          }
+        },
+        "count_costcenterhierarchynode_for_sap_self": {
+          "description": "Count hierarchy nodes.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "$filter": {
+                "type": "string",
+                "description": "Filter expression"
+              }
+            },
+            "required": []
+          },
+          "mock_response": 28
+        },
+        "list_costcenterhierarchynodetext_for_sap_self": {
+          "description": "Retrieve text descriptions for hierarchy nodes.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "$filter": {
+                "type": "string",
+                "description": "Filter expression"
+              }
+            },
+            "required": []
+          },
+          "mock_response": {
+            "results": [
+              {
+                "ControllingArea": "A000",
+                "CostCenterHierarchy": "H1",
+                "HierarchyNode": "CC1000",
+                "Language": "EN",
+                "NodeName": "Corporate IT"
+              }
+            ]
+          }
+        },
+        "get_costcenterhierarchynodetext_for_sap_self": {
+          "description": "Retrieve text for a single hierarchy node.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ControllingArea": {"type": "string"},
+              "CostCenterHierarchy": {"type": "string"},
+              "HierarchyNode": {"type": "string"},
+              "Language": {"type": "string"}
+            },
+            "required": ["ControllingArea", "CostCenterHierarchy", "HierarchyNode", "Language"]
+          },
+          "mock_response": {
+            "ControllingArea": "A000",
+            "CostCenterHierarchy": "H1",
+            "HierarchyNode": "CC1000",
+            "Language": "EN",
+            "NodeName": "Corporate IT"
+          }
+        },
+        "list_costcenterhierarchytext_for_sap_self": {
+          "description": "Retrieve text descriptions for cost center hierarchies.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "$filter": {"type": "string", "description": "Filter expression"},
+              "$select": {"type": "string", "description": "Fields to return"}
+            },
+            "required": []
+          },
+          "mock_response": {
+            "results": [
+              {
+                "ControllingArea": "A000",
+                "CostCenterHierarchy": "H1",
+                "Language": "EN",
+                "CostCenterHierarchyName": "Standard Hierarchy A000"
+              }
+            ]
+          }
+        },
+        "get_costcenterhierarchytext_for_sap_self": {
+          "description": "Retrieve text for a single hierarchy.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ControllingArea": {"type": "string"},
+              "CostCenterHierarchy": {"type": "string"},
+              "Language": {"type": "string"}
+            },
+            "required": ["ControllingArea", "CostCenterHierarchy", "Language"]
+          },
+          "mock_response": {
+            "ControllingArea": "A000",
+            "CostCenterHierarchy": "H1",
+            "Language": "EN",
+            "CostCenterHierarchyName": "Standard Hierarchy A000"
+          }
+        },
+        "list_costcenterhierarchy__costctrhierarchynode_for_sap_self": {
+          "description": "Retrieve hierarchy nodes for a specific cost center hierarchy.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ControllingArea": {"type": "string", "description": "Controlling area"},
+              "CostCenterHierarchy": {"type": "string", "description": "Hierarchy ID"},
+              "$filter": {"type": "string", "description": "Filter expression"}
+            },
+            "required": ["ControllingArea", "CostCenterHierarchy"]
+          },
+          "mock_response": {
+            "results": [
+              {
+                "ControllingArea": "A000",
+                "CostCenterHierarchy": "H1",
+                "HierarchyNode": "CC1000",
+                "ParentNode": "FINANCE",
+                "CostCenter": "1000",
+                "NodeName": "Corporate IT",
+                "NodeLevel": "3"
+              }
+            ]
+          }
+        },
+        "get_costcenterhierarchy__costctrhierarchynode_for_sap_self": {
+          "description": "Retrieve a specific node within a cost center hierarchy.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "ControllingArea": {"type": "string"},
+              "CostCenterHierarchy": {"type": "string"},
+              "HierarchyNode": {"type": "string"}
+            },
+            "required": ["ControllingArea", "CostCenterHierarchy", "HierarchyNode"]
+          },
+          "mock_response": {
+            "ControllingArea": "A000",
+            "CostCenterHierarchy": "H1",
+            "HierarchyNode": "CC1000",
+            "ParentNode": "FINANCE",
+            "CostCenter": "1000",
+            "NodeName": "Corporate IT",
+            "NodeLevel": "3"
+          }
+        }
+      }
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "created_for_agent": "cost-center-intelligence-agent",
+    "mock_mode": true,
+    "deterministic": true,
+    "total_servers": 2,
+    "total_tools": 25,
+    "generated_from": [
+      "assets/sap-s4-ce-costcenter-0001-mcp-server/mcp-translation/translation.json",
+      "assets/sap-s4-ce-costcenterhierarchy-0001-mcp-server/mcp-translation/translation.json"
+    ],
+    "generation_date": "2026-10-19"
+  }
+}
